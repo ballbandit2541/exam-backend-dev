@@ -54,5 +54,20 @@ npm run start:dev
 
 โปรแกรมจะทำงานที่ http://localhost:3000
 
+## การทดสอบ API ด้วย Postman
 
+โปรเจคนี้มีไฟล์ Postman Collection สำหรับทดสอบ API ที่ชื่อ `EXAM-BACKEND-DEV.postman_collection.json`
 
+### วิธีการใช้งาน
+
+1. ดาวน์โหลดและติดตั้ง [Postman](https://www.postman.com/downloads/)
+2. เปิด Postman และเลือก Import
+3. เลือกไฟล์ `EXAM-BACKEND-DEV.postman_collection.json` จากโปรเจค
+4. ทดสอบ API ต่างๆ ได้ทันที
+
+### API ที่สามารถทดสอบได้
+
+- Authentication (register, login)
+- Products Management
+- Email Queue
+- และอื่นๆ
