@@ -5,14 +5,11 @@ export class User {
     @PrimaryGeneratedColumn({ name: 'user_id' })
     userId: number;
 
-    @Column({ name: 'user_email', default: null })
+    @Column({ name: 'user_email', unique: true })
     userEmail: string;
 
-    @Column({ name: 'user_role', default: 'user' })
-    userRole: string;
-
     @Exclude()
-    @Column({ name: 'user_password', unique: true })
+    @Column({ name: 'user_password' })
     userPassword: string;
 
     @Column({ name: 'user_first_name', nullable: true, default: null })
@@ -21,8 +18,11 @@ export class User {
     @Column({ name: 'user_last_name', nullable: true, default: null })
     userLastName: string;
 
+    @Column({ name: 'user_role', default: 'user' })
+    userRole: string;
+
     @Exclude()
-    @Column({ nullable: true })
+    @Column({ name: 'refresh_token', nullable: true })
     refreshToken: string;
 
     @CreateDateColumn({ name: 'created_at' })
