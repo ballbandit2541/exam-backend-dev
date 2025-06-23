@@ -1,4 +1,4 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
@@ -9,7 +9,7 @@ import * as bcrypt from 'bcrypt';
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(User)
+    @InjectRepository(User, 'main')
     private userRepository: Repository<User>,
   ) { }
 
@@ -55,7 +55,11 @@ export class UserService {
   }
 
   async remove(id: number) {
-    return this.userRepository.delete(id);
+    const user = await this.findOne(id);
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
+    return this.userRepository.remove(user);
   }
 
   async updateRefreshToken(userId: number, rawRefreshToken: string | null) {

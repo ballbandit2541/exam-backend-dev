@@ -11,7 +11,7 @@ import { Cache } from 'cache-manager';
 @Injectable()
 export class ProductService {
   constructor(
-    @InjectRepository(Product)
+    @InjectRepository(Product, 'main')
     private productRepository: Repository<Product>,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}

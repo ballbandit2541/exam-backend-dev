@@ -7,7 +7,7 @@ import { CacheModule } from '../cache/cache.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Product]),
+    TypeOrmModule.forFeature([Product], 'main'),
     CacheModule,
   ],
   controllers: [ProductController],

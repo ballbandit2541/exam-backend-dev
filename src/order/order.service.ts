@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectRepository, InjectDataSource } from '@nestjs/typeorm';
 import { Repository, DataSource } from 'typeorm';
 import { Order } from './entities/order.entity';
 import { OrderItem } from './entities/order-item.entity';
@@ -10,12 +10,13 @@ import { Product } from '../product/entities/product.entity';
 @Injectable()
 export class OrderService {
   constructor(
-    @InjectRepository(Order)
+    @InjectRepository(Order, 'main')
     private orderRepository: Repository<Order>,
-    @InjectRepository(OrderItem)
+    @InjectRepository(OrderItem, 'main')
     private orderItemRepository: Repository<OrderItem>,
-    @InjectRepository(Product)
+    @InjectRepository(Product, 'main')
     private productRepository: Repository<Product>,
+    @InjectDataSource('main')
     private dataSource: DataSource,
   ) {}
 

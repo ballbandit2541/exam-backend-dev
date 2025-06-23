@@ -1,7 +1,7 @@
 services:
-  mysql:
+  mysql-main:
     image: mysql:8.0
-    container_name: exam-backend-mysql
+    container_name: exam-backend-mysql-main
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
@@ -11,8 +11,24 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - mysql-data:/var/lib/mysql
+      - mysql-main-data:/var/lib/mysql
+      - ./my.cnf:/etc/mysql/conf.d/my.cnf
+      
+  mysql-log:
+    image: mysql:8.0
+    container_name: exam-backend-mysql-log
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: exam-backend-log
+      MYSQL_USER: exam-backend-user
+      MYSQL_PASSWORD: exam-backend-password
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-log-data:/var/lib/mysql
       - ./my.cnf:/etc/mysql/conf.d/my.cnf
 
 volumes:
-  mysql-data:
+  mysql-main-data:
+  mysql-log-data:
