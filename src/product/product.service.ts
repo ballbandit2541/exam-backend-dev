@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, StreamableFile } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Product } from './entities/product.entity';
@@ -7,6 +7,8 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { Inject } from '@nestjs/common';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
+import { stringify } from 'csv-stringify';
+import { Readable } from 'stream';
 
 @Injectable()
 export class ProductService {
@@ -69,5 +71,28 @@ export class ProductService {
     await this.cacheManager.del('all_products');
     
     return { message: `Product ID ${id} removed success` };
+  }
+
+  async exportToCsv(): Promise<StreamableFile> {
+    const products = await this.productRepository.find();
+    const columns = [
+      { key: 'productId', header: 'ID' },
+      { key: 'productName', header: 'Name' },
+      { key: 'productDesc', header: 'Description' },
+      { key: 'productPrice', header: 'Price' },
+      { key: 'productStock', header: 'Stock' },
+      { key: 'isActive', header: 'Active' },
+      { key: 'createdAt', header: 'Created At' },
+      { key: 'updatedAt', header: 'Updated At' },
+    ];
+    
+    const stringifier = stringify({ header: true, columns });
+    
+    for (const product of products) {
+      stringifier.write(product);
+    }
+    stringifier.end();
+    
+    return new StreamableFile(stringifier);
   }
 }
