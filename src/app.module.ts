@@ -14,6 +14,7 @@ import { OrderModule } from './order/order.module';
 import { LoggerMiddleware } from './middleware/logger.middleware';
 import { getMainDbConfig, getLogDbConfig } from './config/typeorm.config';
 import { DynamicLogModule } from './dynamic-log/dynamic-log.module';
+import { EmailQueueModule } from './email-queue/email-queue.module';
 
 @Module({
   imports: [
@@ -31,7 +32,8 @@ import { DynamicLogModule } from './dynamic-log/dynamic-log.module';
     UserModule,
     ProductModule,
     OrderModule,
-    DynamicLogModule
+    DynamicLogModule,
+    EmailQueueModule.forRoot(),
   ],
   controllers: [AppController],
   providers: [

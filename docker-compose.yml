@@ -28,7 +28,17 @@ services:
     volumes:
       - mysql-log-data:/var/lib/mysql
       - ./my.cnf:/etc/mysql/conf.d/my.cnf
+      
+  redis:
+    image: redis:alpine
+    container_name: exam-backend-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
 
 volumes:
   mysql-main-data:
   mysql-log-data:
+  redis-data:
